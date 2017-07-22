@@ -1,5 +1,7 @@
 package np2017;
 
+import java.util.LinkedList;
+
 /**
  * Dies ist eine unvollständige Implementierung der Tutor Klasse
  * aus der Aufgabenstellung.
@@ -22,17 +24,32 @@ public class Tutor extends Thread {
      * Zu Debug-Zwecken.
      */
     private int finished;
+    
+    private Stapel rechts; //k
+    private Stapel links; //k
 
+    
+
+    
+    
     /**
      * Erstelle einen neuen Tutor.
      *
      * @param prof     Professor
      * @param exercise Aufgabe, die korrigiert wird.
      */
-    public Tutor(final Professor prof, final int exercise) {
+    public Tutor(final Professor prof, final int exercise,Stapel r,Stapel l) {
         this.prof = prof;
         this.exercise = exercise;
-    }
+    
+           this.rechts= r;
+           this.links=l;  
+
+            
+        }
+        	
+        
+    
 
     /**
      * Nimmt einen Klausur vom rechten Stapel.
@@ -40,9 +57,8 @@ public class Tutor extends Thread {
      * @return die Klausur, die vom Stapel genommen wurde.
      */
     protected Exam fetchNextExam() {
-        // ToDo
-
-        return null;
+        
+        return (this.rechts.nehmen());
     }
 
 
@@ -55,15 +71,19 @@ public class Tutor extends Thread {
      * korrigiert hat.
      */
     public void run() {
+    	
         boolean done = false;
 
-        while (!done) {
+        while (!done)  {
             Exam exam = fetchNextExam();
+            if (exam==null)break; //muss noch geändert werden
 
             if (exam.correct(exercise)) {
                 // Die Aufgabe wurde noch nicht korrigiert
                 finished++;
+                if(exam.isAllCorrected()) {continue;} //todo: an den Professor weitergeben, continue um das nach linkslegen zu umgehen 
             }
+            this.links.legen(exam);
 
 
         }
