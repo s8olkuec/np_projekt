@@ -13,7 +13,7 @@ public class Stapel {
 	Lock ll; //lock für legenlist
 	
 	
-	public Stapel(Collection<Exam> ex, int anz)  //nimmt die ersten anz Exams aus ex und fügt sie zur nehenlist
+/*	public Stapel(Collection<Exam> ex, int anz)  //nimmt die ersten anz Exams aus ex und fügt sie zur nehmenlist
 	{  this.nehmenlist=new LinkedList<Exam>();
 	   this.legenlist=new LinkedList<Exam>();
 	   this.ln=new ReentrantLock();
@@ -22,12 +22,20 @@ public class Stapel {
 	   Iterator<Exam> it= ex.iterator();
 	   
 	   for (int i=0;i<anz;i++) {
-		   nehmenlist.add(it.next());
+		   this.nehmenlist.add(it.next());
 		   it.remove();
 	   }
 	   
 		;
-	}
+	}*/
+	
+public Stapel()
+{
+this.nehmenlist=new LinkedList<Exam>();
+this.legenlist=new LinkedList<Exam>();
+this.ln=new ReentrantLock();
+this.ll=new ReentrantLock();
+}
 
 	
 	public void legen(Exam e)
@@ -42,13 +50,18 @@ public class Stapel {
 		this.ll.lock();
 		try {int s=this.legenlist.size();
 			if(s==0)return null;   // das muss noch geändert werden 
-		      else {; for(int i=0;i<s;) {this.nehmenlist.add(this.legenlist.remove());}} }
-		finally {this.ln.unlock();}
+		      else { for(int i=0;i<s;i++) {this.nehmenlist.add(this.legenlist.remove());}} }
+		finally {this.ll.unlock();}
 	     }
 	    return this.nehmenlist.remove();    
 	}
 	 finally {this.ln.unlock();}
 		}
+	
+	public void innllegen(Exam e) //diese methode wird nur benutzt bevor es mehrere threads gibt deshalb keine locks
+	{
+		nehmenlist.add(e);
+	}
 	
 	
 

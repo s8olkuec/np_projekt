@@ -1,7 +1,10 @@
 package np2017;
 
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.LinkedList;
+
+
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -74,16 +77,28 @@ public class Professor {
      */
     private void setUpTutors(final Collection<Exam> exams) {
 
+    	Iterator<Exam> it= exams.iterator();
+    	int s=exams.size();
+    	
+        for (int i = 0; i < exerciseCount; i++) { 
+        
+        	exstap[i]= new Stapel(); 
+            int a= s/(exerciseCount-i);
+            s=s-a;
+        	for(int j=0;j<a;j++) {exstap[i].innllegen(it.next());} //k verteilt die klausuren auf die exstap[]
+        	
+        	
+        }
+    	
+    	
         for (int i = 0; i < exerciseCount; i++) {
-        	int s=exams.size();
-        	int a=s/(exerciseCount-i);
-        	exstap[i]= new Stapel(exams,a);
-            tutors[i] = new Tutor(this, i);
+            tutors[i] = new Tutor(this, i,exstap[i],exstap[(i+1)%exerciseCount]);
+            
             
         }
 
 
-        for (Tutor a : tutors) {
+        for (Tutor a : tutors) {        	
             a.start();
         }
     }
