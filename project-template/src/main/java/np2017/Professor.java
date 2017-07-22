@@ -32,6 +32,10 @@ public class Professor {
      * Enthält die Tutoren-Threads.
      */
     private final Tutor[] tutors;
+    
+    
+    private final Stapel[] exstap; //k
+    
 
     /**
      * Anzahl an Aufgaben in der Klausur.
@@ -45,6 +49,8 @@ public class Professor {
     public Professor(final int exerciseCount) {
         this.exerciseCount = exerciseCount;
         tutors = new Tutor[exerciseCount];
+        exstap= new Stapel[exerciseCount]; //k
+        
     }
 
 
@@ -69,7 +75,11 @@ public class Professor {
     private void setUpTutors(final Collection<Exam> exams) {
 
         for (int i = 0; i < exerciseCount; i++) {
+        	int s=exams.size();
+        	int a=s/(exerciseCount-i);
+        	exstap[i]= new Stapel(exams,a);
             tutors[i] = new Tutor(this, i);
+            
         }
 
 

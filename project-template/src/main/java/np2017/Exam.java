@@ -55,7 +55,7 @@ public class Exam {
      * @return true, falls die Aufgabe gerade korrigiert wurde; false wenn sie schon korrigiert war.
      */
     public boolean correct(final int exercise) {
-
+      if (this.isCorrected(exercise)) return false;  //k 
         Exam.doCorrection();
 
         return true;
@@ -69,6 +69,13 @@ public class Exam {
 
         Exam.doFinish();
 
+    }
+    
+    
+    public boolean isAllCorrected()  //k
+    {
+    	for(boolean b:this.corrected) {if(!b) return false;}
+    	return true;
     }
 
 

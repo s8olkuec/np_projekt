@@ -22,7 +22,18 @@ public class Tutor extends Thread {
      * Zu Debug-Zwecken.
      */
     private int finished;
+    
+    private Stapel rechts; //k
+    private Stapel links; //k
 
+    
+    public void setbeideStapel(Stapel r, Stapel l) //k
+    {
+    	this.rechts=r;
+    	this.links=l;
+    }
+    
+    
     /**
      * Erstelle einen neuen Tutor.
      *
@@ -40,9 +51,8 @@ public class Tutor extends Thread {
      * @return die Klausur, die vom Stapel genommen wurde.
      */
     protected Exam fetchNextExam() {
-        // ToDo
-
-        return null;
+        
+        return (this.rechts.nehmen());
     }
 
 
@@ -63,7 +73,9 @@ public class Tutor extends Thread {
             if (exam.correct(exercise)) {
                 // Die Aufgabe wurde noch nicht korrigiert
                 finished++;
+                if(exam.isAllCorrected()) {break;} //todo: an den Professor weitergeben, break um das nach linkslegen zu umgehen 
             }
+            this.links.legen(exam);
 
 
         }
